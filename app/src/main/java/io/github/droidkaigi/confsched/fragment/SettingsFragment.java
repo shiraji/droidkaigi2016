@@ -21,6 +21,7 @@ import javax.inject.Inject;
 import io.github.droidkaigi.confsched.MainApplication;
 import io.github.droidkaigi.confsched.R;
 import io.github.droidkaigi.confsched.activity.ActivityNavigator;
+import io.github.droidkaigi.confsched.dao.SessionDao;
 import io.github.droidkaigi.confsched.databinding.FragmentSettingsBinding;
 import io.github.droidkaigi.confsched.util.AppUtil;
 import rx.Observable;
@@ -33,6 +34,9 @@ public class SettingsFragment extends Fragment {
 
     @Inject
     ActivityNavigator activityNavigator;
+    @Inject
+    SessionDao dao;
+
     private FragmentSettingsBinding binding;
 
     public static SettingsFragment newInstance() {
@@ -97,6 +101,7 @@ public class SettingsFragment extends Fragment {
     private void showSnackBar(@NonNull String text) {
         Snackbar.make(binding.getRoot(), text, Snackbar.LENGTH_LONG)
                 .setAction(R.string.yes, v -> {
+                    dao.deleteAll();
                     activityNavigator.showMain(getActivity());
                     getActivity().finish();
                 })
