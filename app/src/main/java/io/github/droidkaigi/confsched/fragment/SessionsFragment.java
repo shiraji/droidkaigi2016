@@ -234,6 +234,7 @@ public class SessionsFragment extends Fragment {
 
         public SessionsPagerAdapter(FragmentManager fm) {
             super(fm);
+            fragments.clear();
         }
 
         @Override
