@@ -74,6 +74,15 @@ public enum Page {
         throw new AssertionError("no menu enum found for the id. you forgot to implement?");
     }
 
+    public static Page forFragmentName(String fragmentName) {
+        for (Page page : values()) {
+            if (page.fragmentName.equals(fragmentName)) {
+                return page;
+            }
+        }
+        throw new AssertionError("no Page found for " + fragmentName + ". you forgot to implement?");
+    }
+
     public int getMenuId() {
         return menuId;
     }
