@@ -71,6 +71,16 @@ public class MainActivity extends AppCompatActivity
         initView();
         AppUtil.setTaskDescription(this, getString(R.string.all_sessions), AppUtil.getThemeColorPrimary(this));
 
+        getSupportFragmentManager().addOnBackStackChangedListener(() -> {
+            Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.content_view);
+            if (fragment == null) {
+                return;
+            }
+            Page page = Page.forFragmentName(fragment.getClass().getSimpleName());
+            binding.toolbar.setTitle(page.getTitleResId());
+            AppUtil.setTaskDescription(this, getString(page.getTitleResId()), AppUtil.getThemeColorPrimary(this));
+        });
+
         if (savedInstanceState == null) {
             replaceFragment(SessionsFragment.newInstance(shouldRefresh));
         }
@@ -95,6 +105,7 @@ public class MainActivity extends AppCompatActivity
     private void replaceFragment(Fragment fragment) {
         final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.setCustomAnimations(R.anim.fragment_fade_enter, R.anim.fragment_fade_exit);
+        ft.addToBackStack(null);
         ft.replace(R.id.content_view, fragment, fragment.getClass().getSimpleName());
         ft.commit();
     }
